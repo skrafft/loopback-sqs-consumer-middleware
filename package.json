@@ -1,0 +1,30 @@
+{
+  "name": "loopback-sqs-consumer-middleware",
+  "version": "1.0.0",
+  "description": "Amazon Simple Queue Service consumer middleware for loopback",
+  "main": "server/middleware/sqs-consumer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skrafft/loopback-sqs-consumer-middleware.git"
+  },
+  "keywords": [
+    "loopback",
+    "aws",
+    "amazon",
+    "sqs",
+    "simple queue service",
+    "middleware"
+  ],
+  "dependencies": {
+    "sqs-consumer": "^3.8.0"
+  },
+  "author": "Sébastien Krafft",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/skrafft/loopback-sqs-consumer-middleware/issues"
+  },
+  "homepage": "https://github.com/skrafft/loopback-sqs-consumer-middleware#readme"
+}
