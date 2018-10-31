@@ -1,7 +1,7 @@
 'use strict';
 
 var path = require('path');
-var serverPath = path.join(path.dirname(module.parent.filename), '../../../server/');
+var serverPath = path.join(__dirname, '../../../../server/');
 
 module.exports = function(options) {
   options = options || {};
