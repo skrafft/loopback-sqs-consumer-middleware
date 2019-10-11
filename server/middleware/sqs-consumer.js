@@ -1,10 +1,15 @@
 'use strict';
 
-var path = require('path');
-var serverPath = path.join(__dirname, '../../../../server/');
+const path = require('path');
+const serverPath = path.join(__dirname, '../../../../server/');
+const moment = require('moment-timezone');
+
+const STATUS_STOPPED = 'stopped';
+const STATUS_STARTED = 'started';
 
 module.exports = function(options) {
   options = options || {};
+  let consumerStatus = STATUS_STOPPED;
 
   var canReceive = true;
   if (!options['consumerHandler']) {
@@ -78,7 +83,31 @@ module.exports = function(options) {
    	  }
     });
 
-    consumer.start();
+    if (options.schedule && options.schedule.timezone && options.schedule.from && options.schedule.to) {
+      setInterval(() => {
+        const now = moment().tz(options.schedule.timezone);
+        const [fromHour, fromMinutes] = options.schedule.from.split(':');
+        const [toHour, toMinutes] = options.schedule.to.split(':');
+        const from = now.startOf('day').hour(Number(fromHour)).minute(Number(fromMinutes));
+        const to = now.startOf('day').hour(Number(toHour)).minute(Number(toMinutes));
+        if (now.isAfter(from) && now.isAfter(to)) {
+          if (consumerStatus !== STATUS_STARTED) {
+            console.log('Starting SQS consumer');
+            consumer.start();
+            consumerStatus = STATUS_STARTED;
+          }
+        } else {
+          if (consumerStatus !== STATUS_STOPPED) {
+            console.log('Stopping SQS consumer');
+            consumer.stop();
+            consumerStatus = STATUS_STOPPED;
+          }
+        }
+      }, 60);
+    } else {
+      consumer.start();
+      consumerStatus = STATUS_STARTED;
+    }
   }
 
   return function(req, res, next) {
