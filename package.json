@@ -1,6 +1,6 @@
 {
   "name": "loopback-sqs-consumer-middleware",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Amazon Simple Queue Service consumer middleware for loopback",
   "main": "server/middleware/sqs-consumer.js",
   "scripts": {
